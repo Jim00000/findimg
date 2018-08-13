@@ -39,6 +39,11 @@ public class App {
 		outputDirOption.setRequired(true);
 		outputDirOption.setType(String.class);
 		options.addOption(outputDirOption);
+		
+		Option regexPatternOption = new Option("reg", "regex-pattern", true, "regular expression pattern");
+		regexPatternOption.setRequired(true);
+		regexPatternOption.setType(String.class);
+		options.addOption(regexPatternOption);
 
 		Option useSerialNumberOption = new Option("sn", "use-serial-number", false,
 				"use serial number as its filename");
@@ -54,6 +59,7 @@ public class App {
 			cmd = parser.parse(options, args);
 			final String inputFilePath = cmd.getOptionValue("input");
 			final String outputDirPath = cmd.getOptionValue("output-dir");
+			final String regexs[] = cmd.getOptionValue("regex-pattern").split(",");
 			final boolean useSerialNumber = cmd.hasOption("use-serial-number");
 			
 			log.debug("inputFilePath : " + inputFilePath);
@@ -69,7 +75,7 @@ public class App {
 
 			ImageParser imgparser = new ImageParser();
 			imgparser.parse(html);
-			List<URL> urls = imgparser.getImage("https?:\\/\\/i\\.imgur\\.com\\/[0-9a-zA-Z]*\\.(jpg|jpeg|png)");
+			List<URL> urls = imgparser.getImage(regexs);
 
 			DownloadManager downloadManager = null;
 			if (useSerialNumber == true) {
