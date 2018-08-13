@@ -4,4 +4,41 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # findimg
-A simple tool to find out image URLs inside web pages
+A simple tool to find out image URLs inside web pages and download them all
+
+# Dependency
+
+Make sure that your machine contains required packages below
+
+- Java 1.8+ (Oracle JDK 1.8 is recommended)
+- maven
+
+## On Ubuntu
+
+```bash=
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+sudo apt install oracle-java8-installer maven
+```
+
+# Build
+
+## On Ubuntu
+
+```bash=
+git clone https://github.com/Jim00000/findimg.git
+cd findimg
+mvn package
+```
+
+The runnable JAR are located at /path/to/findimg/target/findimg-\<version\>-SNAPSHOT-jar-with-dependencies.jar
+
+# Usage
+
+```bash=
+java -jar findimg-0.0.1-SNAPSHOT-jar-with-dependencies.jar -i <input-HTML-file> -o <output-image-folder> [-sn]
+```
+
+# Licensing
+
+MIT License
