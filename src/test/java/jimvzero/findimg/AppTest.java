@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -20,9 +21,10 @@ public class AppTest {
 		log.info("$ java -jar " + "findimg-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
 				+ "-i src/test/resources/testcases/parse-case-1.html" + "-o ${tmp}/imgs" + "-sn");
 		final String tempDir = System.getProperty("java.io.tmpdir");
-		final Path outputDirPath = Paths.get(tempDir, "imgs"); 
-		final String[] args = { "findimg-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "-i",
-				"src/test/resources/testcases/parse-case-1.html", "-o", outputDirPath.toString(), "-sn" };
+		final Path outputDirPath = Paths.get(tempDir, "imgs");
+		Path src = Paths.get("src", "test", "resources", "testcases", "parse-case-1.html");
+		final String[] args = { "-i", src.toString(), "-o", outputDirPath.toString(), "-sn" };
+
 		App.main(args);
 		// Remove images directory
 		try {
