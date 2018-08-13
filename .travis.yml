@@ -1,0 +1,25 @@
+language: java
+sudo: false
+jdk:
+    oraclejdk8
+    oraclejdk9
+    openjdk8
+    openjdk9
+script:
+    jdk_switcher use oraclejdk8
+    mvn clean verify
+    mvn cobertura:cobertura
+    jdk_switcher use oraclejdk9
+    mvn clean verify
+    jdk_switcher use openjdk8
+    mvn clean verify
+    jdk_switcher use openjdk9
+    mvn clean verify
+
+after_success:
+    bash <(curl -s https://codecov.io/bash)
+
+addons:
+    apt:
+        packages:
+            oracle-java8-installer
