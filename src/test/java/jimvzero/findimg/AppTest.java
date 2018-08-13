@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
+import jimvzero.findimg.download.DownloadManagerTest;
+
 public class AppTest {
 
 	private final static Logger log = LogManager.getLogger(AppTest.class);
@@ -22,8 +24,8 @@ public class AppTest {
 				+ "-i src/test/resources/testcases/parse-case-1.html" + "-o ${tmp}/imgs" + "-sn");
 		final String tempDir = System.getProperty("java.io.tmpdir");
 		final Path outputDirPath = Paths.get(tempDir, "imgs");
-		Path src = Paths.get("src", "test", "resources", "testcases", "parse-case-1.html");
-		final String[] args = { "-i", src.toString(), "-o", outputDirPath.toString(), "-sn" };
+		final String srcpath = DownloadManagerTest.class.getClassLoader().getResource("testcases/parse-case-1.html").getFile();
+		final String[] args = { "-i", srcpath, "-o", outputDirPath.toString(), "-sn" };
 
 		App.main(args);
 		// Remove images directory
