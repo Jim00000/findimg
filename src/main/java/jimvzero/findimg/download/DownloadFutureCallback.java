@@ -37,7 +37,7 @@ public class DownloadFutureCallback implements FutureCallback<HttpResponse> {
 	@Override
 	public void completed(HttpResponse response) {
 		semaphore.release();
-		log.info(request.getRequestLine() + "->" + response.getStatusLine());
+		log.info(request.getRequestLine() + " -> " + response.getStatusLine());
 		try {
 			queue.take();
 		} catch (InterruptedException e) {
@@ -48,7 +48,7 @@ public class DownloadFutureCallback implements FutureCallback<HttpResponse> {
 	@Override
 	public void failed(Exception ex) {
 		semaphore.release();
-		log.info(request.getRequestLine() + "->" + ex);
+		log.info(request.getRequestLine() + " -> " + ex);
 		try {
 			queue.take();
 		} catch (InterruptedException e) {

@@ -1,4 +1,4 @@
-package jimvzero.findimg;
+package jimvzero.findimg.web;
 
 import java.io.File;
 import java.net.URL;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import jimvzero.findimg.web.ImageParser;
 
-public class AppTest {
+public class ImageParserTest {
 	
 	private ImageParser parser;
 	
@@ -26,7 +26,7 @@ public class AppTest {
 	@Test
 	void testcase1() {
 		try {
-			String filepath = AppTest.class.getClassLoader().getResource("testcases/parse-case-1.html").getFile();
+			String filepath = ImageParserTest.class.getClassLoader().getResource("testcases/parse-case-1.html").getFile();
 			final String html = FileUtils.readFileToString(new File(filepath), Charset.defaultCharset());
 			parser.parse(html);
 			List<URL> urls = parser.getImage("https?:\\/\\/i\\.imgur\\.com\\/[0-9a-zA-Z]*\\.(jpg|jpeg|png)");
@@ -40,7 +40,7 @@ public class AppTest {
 	@Test
 	void testcase2() {
 		try {
-			String filepath = AppTest.class.getClassLoader().getResource("testcases/parse-case-2.html").getFile();
+			String filepath = ImageParserTest.class.getClassLoader().getResource("testcases/parse-case-2.html").getFile();
 			final String html = FileUtils.readFileToString(new File(filepath), Charset.defaultCharset());
 			parser.parse(html);
 			List<URL> urls = parser.getImage("https?:\\/\\/i\\.imgur\\.com\\/[0-9a-zA-Z]*\\.(jpg|jpeg|png)");
@@ -54,7 +54,7 @@ public class AppTest {
 	@Test
 	void testcase3() {
 		try {
-			String filepath = AppTest.class.getClassLoader().getResource("testcases/parse-case-3.html").getFile();
+			String filepath = ImageParserTest.class.getClassLoader().getResource("testcases/parse-case-3.html").getFile();
 			final String html = FileUtils.readFileToString(new File(filepath), Charset.defaultCharset());
 			parser.parse(html);
 			List<URL> urls = parser.getImage("https?://truth\\.bahamut\\.com\\.tw/[0-9a-zA-Z/]*\\.([jJ][pP][gG]|[pP][nN][gG])");
