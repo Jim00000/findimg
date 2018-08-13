@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Jim00000/findimg.svg?branch=master)](https://travis-ci.org/Jim00000/findimg)
+[![Build status](https://ci.appveyor.com/api/projects/status/qugsnaf2l66kk3mf/branch/master?svg=true)](https://ci.appveyor.com/project/Jim00000/findimg/branch/master)
 [![codecov](https://codecov.io/gh/Jim00000/findimg/branch/master/graph/badge.svg)](https://codecov.io/gh/Jim00000/findimg)
 
 # findimg
