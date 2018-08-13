@@ -30,7 +30,7 @@ public class DownloadFutureCallback implements FutureCallback<HttpResponse> {
 		try {
 			queue.take();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			log.catching(e);
 		}
 	}
 
@@ -41,7 +41,7 @@ public class DownloadFutureCallback implements FutureCallback<HttpResponse> {
 		try {
 			queue.take();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			log.catching(e);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class DownloadFutureCallback implements FutureCallback<HttpResponse> {
 		try {
 			queue.take();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			log.catching(e);
 		}
 	}
 

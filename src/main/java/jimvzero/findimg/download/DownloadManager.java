@@ -23,13 +23,11 @@ public class DownloadManager implements Downloadable, Closeable {
 
 	private final static Logger log = LogManager.getLogger(DownloadManager.class);
 	private static DownloadManager instance = null;
-	private boolean start;
 	private CloseableHttpAsyncClient httpclient;
 	private Semaphore semaphore;
 	private BlockingQueue<Future<HttpResponse>> queue;
 	
 	protected DownloadManager() {
-		start = false;
 		httpclient = HttpAsyncClients.createDefault();
 		final int cores = Runtime.getRuntime().availableProcessors();
 		semaphore = new Semaphore(cores);
@@ -50,10 +48,8 @@ public class DownloadManager implements Downloadable, Closeable {
 		AsyncByteConsumer<HttpResponse> consumer = DownloadConsumer.create(dstname);
 		FutureCallback<HttpResponse> callback = DownloadFutureCallback.create(request, semaphore, queue);
 		
-		if(start == false) {
+		if(httpclient.isRunning() == false)
 			httpclient.start();
-			start = true;
-		}
 		
 		Future<HttpResponse> response = httpclient.execute(producer, consumer, callback);
 		try {
@@ -67,7 +63,6 @@ public class DownloadManager implements Downloadable, Closeable {
 	public void close() throws IOException {
 		while(queue.isEmpty() == false);
 		httpclient.close();
-		start = false;
 	}
 	
 	public synchronized static DownloadManager getInstance() {
