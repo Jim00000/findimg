@@ -1,5 +1,6 @@
 package jimvzero.findimg.download;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -18,7 +19,7 @@ import org.apache.http.nio.protocol.HttpAsyncRequestProducer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DownloadManager implements Downloadable {
+public class DownloadManager implements Downloadable, Closeable {
 
 	private final static Logger log = LogManager.getLogger(DownloadManager.class);
 	static DownloadManager instance = null;
@@ -63,6 +64,12 @@ public class DownloadManager implements Downloadable {
 		// Busy waiting
 		while (queue.isEmpty() == false)
 			;
+	}
+	
+	@Override
+	public void close() throws IOException {
+		awaitDownloadComplete();
+		httpclient.close();
 	}
 
 	public synchronized static DownloadManager getInstance() {

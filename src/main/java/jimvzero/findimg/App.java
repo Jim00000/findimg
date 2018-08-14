@@ -123,6 +123,7 @@ public class App {
 			}
 			
 			downloadManager.awaitDownloadComplete();
+			downloadManager.close();
 
 		} catch (ParseException e) {
 			log.error(e.getMessage());
@@ -132,5 +133,6 @@ public class App {
 			log.catching(e);
 		}
 
+		
 	}
 }
