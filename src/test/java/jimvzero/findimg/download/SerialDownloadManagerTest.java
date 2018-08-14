@@ -43,6 +43,7 @@ public class SerialDownloadManagerTest {
 			down.awaitDownloadComplete();
 			down.close();
 		} catch (IOException e) {
+			log.catching(e);
 			Assertions.fail(e);
 		} finally {
 			tmpfileQueue.forEach((Path path)->{
@@ -51,6 +52,7 @@ public class SerialDownloadManagerTest {
 					log.info("Delete " + path);
 				} catch (IOException e) {
 					log.catching(e);
+					Assertions.fail(e);
 				}
 			});
 		}

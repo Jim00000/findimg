@@ -37,6 +37,7 @@ public class AppTest {
 				FileUtils.deleteDirectory(outputDirPath.toFile());
 				log.info("Remove directory " + outputDirPath);
 			} catch (IOException e) {
+				log.catching(e);
 				Assertions.fail(e);
 			}
 		}

@@ -50,6 +50,7 @@ public class DownloadManagerTest {
 			
 			downs.close();
 		} catch (IOException e) {
+			log.catching(e);
 			Assertions.fail(e);
 		} finally {
 			tmpfileQueue.forEach((Path path)->{
@@ -58,6 +59,7 @@ public class DownloadManagerTest {
 					log.info("Delete " + path);
 				} catch (IOException e) {
 					log.catching(e);
+					Assertions.fail(e);
 				}
 			});
 		}
