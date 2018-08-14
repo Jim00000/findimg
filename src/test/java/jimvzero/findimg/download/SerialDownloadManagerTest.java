@@ -41,7 +41,7 @@ public class SerialDownloadManagerTest {
 				tmpfileQueue.add(Paths.get(tmpDir, filename));
 			}
 			down.awaitDownloadComplete();
-			down.close();
+
 		} catch (IOException e) {
 			log.catching(e);
 			Assertions.fail(e);

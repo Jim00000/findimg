@@ -48,7 +48,7 @@ public class DownloadManagerTest {
 				idx++;
 			}
 			
-			downs.close();
+			downs.awaitDownloadComplete();
 		} catch (IOException e) {
 			log.catching(e);
 			Assertions.fail(e);
