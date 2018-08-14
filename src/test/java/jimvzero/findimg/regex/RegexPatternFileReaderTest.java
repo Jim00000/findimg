@@ -3,11 +3,15 @@ package jimvzero.findimg.regex;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
 public class RegexPatternFileReaderTest {
+	
+	private final static Logger log = LogManager.getLogger(RegexPatternFileReaderTest.class);
 	
 	@DisplayName("Test reading default regex pattern file")
 	@Test
@@ -16,6 +20,7 @@ public class RegexPatternFileReaderTest {
 			RegexPatternFileReader reader = new RegexPatternFileReader();
 			reader.getPatterns();
 		} catch (IOException e) {
+			log.catching(e);
 			Assertions.fail(e);
 		}
 	}
@@ -28,6 +33,7 @@ public class RegexPatternFileReaderTest {
 			RegexPatternFileReader reader = new RegexPatternFileReader(filepath);
 			reader.getPatterns();
 		} catch (IOException e) {
+			log.catching(e);
 			Assertions.fail(e);
 		}
 	}
@@ -40,6 +46,7 @@ public class RegexPatternFileReaderTest {
 			RegexPatternFileReader reader = new RegexPatternFileReader(new File(filepath));
 			reader.getPatterns();
 		} catch (IOException e) {
+			log.catching(e);
 			Assertions.fail(e);
 		}
 	}

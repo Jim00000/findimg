@@ -1,5 +1,6 @@
 package jimvzero.findimg.regex;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,12 +43,26 @@ public class RegexPatternManager implements RegexPatternAPI {
 		patterns.add(pattern);
 	}
 	
+	@Override
+	public void readPatternFile(File file) throws IOException {
+		RegexPatternFileReader reader = new RegexPatternFileReader(file);
+		patterns = reader.getPatterns();
+	}
+	
+	@Override
+	public void readPatternFile(String filepath) throws IOException {
+		readPatternFile(new File(filepath));
+	}
+	
+	@Override
+	public void clearAllPattern() {
+		patterns.clear();
+	}
+	
 	public synchronized static RegexPatternManager getInstance() {
 		if(instance == null) 
 			instance = new RegexPatternManager();
 		return instance;
 	}
-
-
 	
 }
