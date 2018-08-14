@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
@@ -21,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import jimvzero.findimg.download.DownloadManager;
 import jimvzero.findimg.download.SerialDownloadManager;
+import jimvzero.findimg.regex.RegexPatternManager;
 import jimvzero.findimg.web.ImageParser;
 
 public class App {
@@ -30,20 +32,26 @@ public class App {
 	public static void main(String[] args) {
 
 		Options options = new Options();
-		Option inputOption = new Option("i", "input", true, "input HTML webpage file path");
+		Option inputOption = new Option("i", "input", true, "Set input HTML webpage file path");
 		inputOption.setRequired(true);
 		inputOption.setType(String.class);
 		options.addOption(inputOption);
 
-		Option outputDirOption = new Option("o", "output-dir", true, "output image directory");
+		Option outputDirOption = new Option("o", "output-dir", true, "Set output image directory");
 		outputDirOption.setRequired(true);
 		outputDirOption.setType(String.class);
 		options.addOption(outputDirOption);
-		
-		Option regexPatternOption = new Option("reg", "regex-pattern", true, "regular expression pattern");
-		regexPatternOption.setRequired(true);
+
+		Option regexPatternOption = new Option("reg", "regex-pattern", true, "Set regular expression pattern");
+		regexPatternOption.setRequired(false);
 		regexPatternOption.setType(String.class);
 		options.addOption(regexPatternOption);
+
+		Option regexPatternFileOption = new Option("regf", "regex-pattern-file", true,
+				"Set regular expression pattern file");
+		regexPatternFileOption.setRequired(false);
+		regexPatternFileOption.setType(String.class);
+		options.addOption(regexPatternFileOption);
 
 		Option useSerialNumberOption = new Option("sn", "use-serial-number", false,
 				"use serial number as its filename");
@@ -57,15 +65,36 @@ public class App {
 
 		try {
 			cmd = parser.parse(options, args);
+
 			final String inputFilePath = cmd.getOptionValue("input");
-			final String outputDirPath = cmd.getOptionValue("output-dir");
-			final String regexs[] = cmd.getOptionValue("regex-pattern").split(",");
-			final boolean useSerialNumber = cmd.hasOption("use-serial-number");
-			
 			log.debug("inputFilePath : " + inputFilePath);
+
+			final String outputDirPath = cmd.getOptionValue("output-dir");
 			log.debug("outputDirPath : " + outputDirPath);
+
+			List<String> regexlist = null;
+
+			final boolean useSerialNumber = cmd.hasOption("use-serial-number");
 			log.debug("useSerialNumber : " + useSerialNumber);
 
+			RegexPatternManager regexmanager = RegexPatternManager.getInstance();
+
+			if (cmd.hasOption("regex-pattern-file") == true) {
+				final String regexPatternFilePath = cmd.getOptionValue("regex-pattern-file");
+				log.debug("Use regex pattern file " + regexPatternFilePath);
+				regexmanager.readPatternFile(regexPatternFilePath);
+				regexlist = regexmanager.getPatterns();
+			} else {
+				if (cmd.hasOption("regex-pattern") == true) {
+					log.debug("Use user defined regex pattern(s)");
+					regexlist = Arrays.asList(cmd.getOptionValue("regex-pattern").split(","));
+				} else {
+					log.debug("Use default regex pattern file");
+					regexmanager.defaultRegPattern();
+					regexlist = regexmanager.getPatterns();
+				}
+			}
+			
 			String html = FileUtils.readFileToString(new File(inputFilePath), Charset.defaultCharset());
 			try {
 				FileUtils.forceMkdir(new File(outputDirPath));
@@ -75,7 +104,7 @@ public class App {
 
 			ImageParser imgparser = new ImageParser();
 			imgparser.parse(html);
-			List<URL> urls = imgparser.getImage(regexs);
+			List<URL> urls = imgparser.getImage(regexlist);
 
 			DownloadManager downloadManager = null;
 			if (useSerialNumber == true) {
@@ -92,8 +121,8 @@ public class App {
 					downloadManager.download(url, Paths.get(outputDirPath, filename).toString());
 				}
 			}
-
-			downloadManager.close();
+			
+			downloadManager.awaitDownloadComplete();
 
 		} catch (ParseException e) {
 			log.error(e.getMessage());

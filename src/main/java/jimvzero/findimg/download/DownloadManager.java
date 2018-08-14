@@ -68,7 +68,6 @@ public class DownloadManager implements Downloadable, Closeable {
 
 	@Override
 	public void close() throws IOException {
-		awaitDownloadComplete();
 		httpclient.close();
 	}
 

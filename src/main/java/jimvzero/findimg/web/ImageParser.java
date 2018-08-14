@@ -44,4 +44,11 @@ public class ImageParser extends WebParser implements RetrieveImageAPI {
 		return retrieveImageProcess(regexs, handler);
 	}
 
+	@Override
+	public List<URL> getImage(List<String> regexlist) {
+		String[] regexs = new String[regexlist.size()];
+		regexs = regexlist.toArray(regexs);
+		return getImage(regexs);
+	}
+
 }

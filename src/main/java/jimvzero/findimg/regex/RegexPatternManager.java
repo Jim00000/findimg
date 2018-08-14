@@ -22,11 +22,11 @@ public class RegexPatternManager implements RegexPatternAPI {
 	}
 	
 	public synchronized final String[] getPatternArray() {
-		if((patterns.toArray() instanceof String[]) == false)
-			assert false : "patterns must be String[] type";
-		return (String[]) patterns.toArray();
+		String[] patternArray = new String[patterns.size()];
+		patternArray = patterns.toArray(patternArray);
+		return patternArray;
 	}
-
+	
 	@Override
 	public void defaultRegPattern() {
 		try {

@@ -9,4 +9,6 @@ public interface RetrieveImageAPI {
 	
 	public List<URL> getImage(String... regexs);
 	
+	public List<URL> getImage(List<String> regexlist);
+	
 }

@@ -57,4 +57,15 @@ public class RegexPatternManagerTest {
 		}
 	}
 	
+	@DisplayName("Test Transforming List<String> to String[] (Test getPatternArray method)")
+	@Test
+	public void testcase5() {
+		RegexPatternManager manager = RegexPatternManager.getInstance();
+		manager.defaultRegPattern();
+		final String[] patterns = manager.getPatternArray();
+		if((patterns instanceof String[]) == false)
+			Assertions.fail("Transform List<String> to String[] fail");
+		manager.clearAllPattern();
+	}
+	
 }
