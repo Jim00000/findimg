@@ -70,6 +70,7 @@ public class DownloadManager implements Downloadable, Closeable {
 	public void close() throws IOException {
 		awaitDownloadComplete();
 		httpclient.close();
+		instance = null;
 	}
 
 	public synchronized static DownloadManager getInstance() {
